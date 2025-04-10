@@ -1,0 +1,28 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "prisma+postgres://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5IjoiZDZjN2E3N2YtOGE1Ni00YmY5LTljYWEtODlmYTBkYTk0Mzk1IiwidGVuYW50X2lkIjoiZDJkZTczOGE1MGNmNWQyOTViZjM4MTQ2NzA5M2Q4YWVjMDk4NzA1YjMxOTJiZDI1ZDQ1YTcyYzQ2NWFmZWMzYiIsImludGVybmFsX3NlY3JldCI6IjNkNWFhOWJjLTg3N2MtNDhkMy04MzNmLWRlZWQ3OGQzMGM0YSJ9.H084b_Qh6Q8qpdX8iOuxtw6PVSo2i8q-b2otXpCxz5M"
+}
+
+model LocalizacaoPA {
+  id               Int               @id @default(autoincrement())
+  filial           String
+  Andar            String
+  Espinha          String
+  PA               String
+  Carteira         String
+  RelacionamentoPA RelacionamentoPA?
+}
+
+model RelacionamentoPA {
+  id              Int            @id @default(autoincrement())
+  LocalCompleto   String         @unique
+  PatrimonioPC    String         @default("") 
+  PatrimonioMNT   String         @default("") 
+  DataCricao      DateTime       @default(now())
+  DataModificacao DateTime       @updatedAt
+  localizacaoPA   LocalizacaoPA? @relation(fields: [id], references: [id])
+}

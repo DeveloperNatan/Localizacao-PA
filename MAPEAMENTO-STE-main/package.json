@@ -1,0 +1,28 @@
+{
+  "name": "mapa-site",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "style": "npx @tailwindcss/cli -i ./frontend/src/styles/input.css  -o ./frontend/src/styles/output.css --watch",
+    "build": "node ./server/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@prisma/client": "^6.5.0",
+    "@tailwindcss/cli": "^4.1.1",
+    "cors": "^2.8.5",
+    "ejs": "^3.1.10",
+    "env": "^0.0.2",
+    "express": "^4.21.2",
+    "path": "^0.12.7",
+    "prisma": "^6.5.0",
+    "tailwindcss": "^4.1.1",
+    "tailwindscss": "^0.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}

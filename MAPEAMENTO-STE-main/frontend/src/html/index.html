@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/input.css">
+    <link rel="stylesheet" href="/styles/output.css">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <script src="../js/index.js" defer></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <title>Snipe PA</title>
+    <link rel="icon" href="../assets/schulze.ico" type="image/x-icon">
+</head>
+
+<body class="bg-gray-200 min-h-screen">
+    <!-- Navbar -->
+    <nav class="bg-[#242c33] text-white p-4 flex justify-between items-center">
+        <div class="flex items-center">
+            <img src="../assets/logo.png" alt="Logo" class="h-16 mr-4">
+            <h1 class="text-xl font-bold">Gerenciamento de PA</h1>
+        </div>
+
+        <ul class="flex space-x-6">
+            <li><a href="#" class="hover:text-cyan-400">Início</a></li>
+            <!-- <li><button id="button-modal-add" class="hover:text-cyan-400">Criar novo</button></li> -->
+            <li><a href="#" class="hover:text-cyan-400">Sair</a></li>
+        </ul>
+    </nav>
+    <div id="campo-busca" class="flex justify-end p-2">
+        <div class="border border-black p-1 rounded-sm">
+            <input type="text" placeholder="Digite a PA" class="focus:outline-none">
+            <button class="hover:bg-gray-400 w-6 rounded shadow-lg cursor-pointer"><i class="bi bi-search"></i></button>
+        </div>
+    </div>
+
+
+    <!-- Cabeçalho da Tabela -->
+    <div class="grid grid-cols-8  font-medium bg-[#146c84] text-white rounded p-2 text-center mt-2  mr-2 ml-2">
+        <span>FILIAL</span>
+        <span>ANDAR</span>
+        <span>ESPINHA</span>
+        <span>PA</span>
+        <span>LOCAL COMPLETO</span>
+        <span>COMPUTADOR</span>
+        <span>MONITORES</span>
+        <span>AÇÕES</span>
+    </div>
+
+
+<div class="text-center" ></div>
+    <!-- Itens da Tabela -->
+    <div id="menu-container" class="mr-2 ml-2">
+        <h2 class="text-xl font-medium">Joinville Site</h2>
+        <div id="classe-J1"></div>
+        <h2 class="text-xl font-medium">Joinville Matriz</h2>
+        <div id="classe-J0"></div>
+        <h2 class="text-xl font-medium">Curitiba</h2>
+        <div id="classe-CWB"></div>
+        <h2 class="text-xl font-medium">São Paulo</h2>
+        <div id="classe-SP"></div>
+    </div>
+
+    <!-- Botão para abrir modal -->
+    <div class="flex justify-center mt-6">
+        <button id="button-modal-add" class="bg-[#1a8caa] text-white py-2 px-6 rounded shadow-lg hover:bg-[#195468]">
+            Adicionar
+        </button>
+
+    </div>
+
+    <!-- Modal Adicionar -->
+    <div id="modal-add"
+        class="fixed inset-0 bg-gray-300/90 flex items-center justify-center opacity-0 invisible transition-opacity duration-500 ease-in-out">
+        <div class="bg-white border border-gray-400 p-6 rounded-lg shadow-lg w-full max-w-lg text-gray-900">
+            <h1 class="text-2xl font-bold mb-6 text-center">Adicionar Computador</h1>
+            <form action="/create" method="post" class="grid grid-cols-1 gap-4">
+                <div>
+                    <label for="cad-patrimonio" class="block text-sm font-medium">Patrimônio PC</label>
+                    <input type="text" name="patrimonioPC" id="cad-patrimonio-PC"
+                        class="mt-1 block p-2 w-full rounded-md border border-gray-400 bg-gray-100 text-gray-900">
+                </div>
+                <div>
+                    <label for="cad-patrimonio" class="block text-sm font-medium">Patrimônio Monitor</label>
+                    <input type="text" name="patrimonioMNT" id="cad-patrimonio-MNT"
+                        class="mt-1 block p-2 w-full rounded-md border border-gray-400 bg-gray-100 text-gray-900">
+                </div>
+                <div>
+                    <label for="cad-filial" class="block text-sm font-medium">Filial</label>
+                    <select name="filial" id="cad-filial"
+                        class="mt-1 block p-2 w-full rounded-md border border-gray-400 bg-gray-100 text-gray-900">
+                        <option value="J0">Joinville Matriz (J0)</option>
+                        <option value="J1">Joinville Site (J1)</option>
+                        <option value="CWB">Curitiba (CWB)</option>
+                        <option value="SP">São Paulo (SP)</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="cad-andar" class="block text-sm font-medium">Andar</label>
+                    <input type="text" name="andar" id="cad-andar"
+                        class="mt-1 block p-2 w-full rounded-md border border-gray-400 bg-gray-100 text-gray-900">
+                </div>
+                <div>
+                    <label for="cad-espinha" class="block text-sm font-medium">Espinha</label>
+                    <input type="text" name="espinha" id="cad-espinha"
+                        class="mt-1 block p-2 w-full rounded-md border border-gray-400 bg-gray-100 text-gray-900">
+                </div>
+                <div>
+                    <label for="cad-pa" class="block text-sm font-medium">PA</label>
+                    <input type="text" name="pa" id="cad-pa"
+                        class="mt-1 block p-2 w-full rounded-md border border-gray-400 bg-gray-100 text-gray-900">
+                </div>
+                <div>
+                    <label for="cad-carteira" class="block text-sm font-medium">Carteira/Setor</label>
+                    <select name="carteira" id="cad-carteira"
+                        class="mt-1 block p-2 w-full rounded-md border border-gray-400 bg-gray-100 text-gray-900">
+                        <option value="BV">BV</option>
+                        <option value="PAN">PAN</option>
+                        <option value="SANTANDER">SANTANDER</option>
+                        <option value="BRADESCO">BRADESCO</option>
+                        <option value="STELLANTIS">STELLANTIS</option>
+                        <option value="UNCICRED">UNICRED</option>
+                        <option value="DAYCOVAL">DAYCOVAL</option>
+                        <option value="">JURIDICO CONTRA</option>
+                        <option value="INFRAESTRUTURA">INFRAESTRUTURA</option>
+                        <option value="RH">RH</option>
+                        <option value="FINANCEIRO">FINANCEIRO</option>
+                        <option value="APREENSOES">APREENSOES</option>
+                        <option value="PRAZOS">PRAZOS</option>
+                        <option value="JURIDICO">JURIDICO</option>
+                        <option value="QUALIDADE">QUALIDADE</option>
+                    </select>
+                </div>
+                <div class="mt-6 grid grid-cols-2 gap-4">
+                    <button type="submit" class="w-full bg-[#1a8caa] text-white py-2 px-4 rounded-md shadow">
+                        Adicionar
+                    </button>
+                    <button type="button" id="buttton-modal-fechar"
+                        class="w-full bg-[#146c84] text-white py-2 px-4 rounded-md shadow">
+                        Fechar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Editar -->
+    <div class="hidden" id="ModalEdit"></div>
+</body>
+
+</html>
