@@ -3,13 +3,30 @@ const prisma = require("../data/prisma");
 exports.Cadastro = async function (req, res) {
   console.log(req.body);
   const { filial, andar, espinha, pa, patrimonioPC, patrimonioMNT, carteira } = req.body;
+
   const localcompleto = `${filial}${andar.padStart(2, "0")}A${espinha.padStart(
     2,
     "0"
   )}E${pa.padStart(2, "0")}PA`;
 
   try {
-    await prisma.localizacaoPA.createMany({
+    const ConsultaExiste = await prisma.localizacaoPA.findFirst({
+      where: {
+        filial: filial,
+        Andar: andar,
+        Espinha: espinha,
+        PA: pa
+      }
+    })
+
+    if (ConsultaExiste) {
+      return res.status(409).json({
+        error: "Local já existe",
+        details: `PA com id ${localcompleto}`
+      })
+    }
+
+    const NovaPA = await prisma.localizacaoPA.create({
       data: {
         filial: filial,
         Andar: andar,
@@ -18,8 +35,9 @@ exports.Cadastro = async function (req, res) {
         Carteira: carteira,
       },
     });
-    await prisma.relacionamentoPA.createMany({
+    await prisma.relacionamentoPA.create({
       data: {
+        id: NovaPA.id,
         LocalCompleto: localcompleto,
         PatrimonioPC: patrimonioPC,
         PatrimonioMNT: patrimonioMNT,

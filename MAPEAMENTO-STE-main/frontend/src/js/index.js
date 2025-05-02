@@ -23,9 +23,7 @@ function CreateItems(item) {
   const classeCWB = document.getElementById("classe-CWB");
   const classeSP = document.getElementById("classe-SP");
 
-  menutable.sort((a, b) =>
-    a.RelacionamentoPA.LocalCompleto.localeCompare(b.RelacionamentoPA.LocalCompleto)
-  );
+
 
   ArrayLocals.push(item.RelacionamentoPA.LocalCompleto);
   menuitems.classList =
@@ -61,12 +59,13 @@ function CreateItems(item) {
     case "J1":
       classeJ1.appendChild(menuitems);
       break;
-    case "SP":
-      classeSP.appendChild(menuitems);
-      break;
     case "CWB":
       classeCWB.appendChild(menuitems);
       break;
+    case "SP":
+      classeSP.appendChild(menuitems);
+      break;
+
   }
 }
 
@@ -81,6 +80,9 @@ async function fetchApitable() {
 
     menutable = await response.json();
 
+    menutable.sort((a, b) =>
+      a.RelacionamentoPA.LocalCompleto.localeCompare(b.RelacionamentoPA.LocalCompleto)
+    );
     menutable.forEach((item) => {
       CreateItems(item);
     })
@@ -90,6 +92,7 @@ async function fetchApitable() {
 }
 
 //NAO FUNCIONA
+//Pesquisa de busca por local, filial, espinha
 InputBusca.oninput = () => {
   menucontainer.innerHTML = "";
   ArrayLocals.filter((local) =>
