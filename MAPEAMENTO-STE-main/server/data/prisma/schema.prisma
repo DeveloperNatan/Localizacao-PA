@@ -4,7 +4,8 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "prisma+postgres://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5IjoiZDZjN2E3N2YtOGE1Ni00YmY5LTljYWEtODlmYTBkYTk0Mzk1IiwidGVuYW50X2lkIjoiZDJkZTczOGE1MGNmNWQyOTViZjM4MTQ2NzA5M2Q4YWVjMDk4NzA1YjMxOTJiZDI1ZDQ1YTcyYzQ2NWFmZWMzYiIsImludGVybmFsX3NlY3JldCI6IjNkNWFhOWJjLTg3N2MtNDhkMy04MzNmLWRlZWQ3OGQzMGM0YSJ9.H084b_Qh6Q8qpdX8iOuxtw6PVSo2i8q-b2otXpCxz5M"
+  url      = "prisma+postgres://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5IjoiMDFKWFo4Wjk2OUZGNTVLQVdCM1RGVFZSVEEiLCJ0ZW5hbnRfaWQiOiJmNjE1MWZiY2JiZTg1ODc5N2Q5ZDA3MTdiOGUyOGZiNWNiZTkzMDZjMWJmZTM0Mjg5YWYxYTBmYTgwNTYyMTIyIiwiaW50ZXJuYWxfc2VjcmV0IjoiYWEzMjYxNTItNTY0OC00N2EzLWE0NzItMWI2N2E1M2VhNGI1In0.5ZYS2kwzhZAHFtv3DpSrzNx_c8zxg33PTOrpsrMMyXw"
+  //url = env("DATABASE_URL")
 }
 
 model LocalizacaoPA {
@@ -18,11 +19,11 @@ model LocalizacaoPA {
 }
 
 model RelacionamentoPA {
-  id              Int            @id @default(autoincrement())
-  LocalCompleto   String         @unique
-  PatrimonioPC    String         @default("") 
-  PatrimonioMNT   String         @default("") 
-  DataCricao      DateTime       @default(now())
-  DataModificacao DateTime       @updatedAt
-  localizacaoPA   LocalizacaoPA? @relation(fields: [id], references: [id])
+  id              Int           @id @default(autoincrement())
+  LocalCompleto   String        @unique
+  DataCricao      DateTime      @default(now())
+  DataModificacao DateTime      @updatedAt
+  PatrimonioMNT   String        @default("")
+  PatrimonioPC    String
+  localizacaoPA   LocalizacaoPA @relation(fields: [id], references: [id])
 }

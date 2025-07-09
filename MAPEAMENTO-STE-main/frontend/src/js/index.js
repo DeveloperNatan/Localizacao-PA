@@ -23,34 +23,43 @@ function CreateItems(item) {
   const classeCWB = document.getElementById("classe-CWB");
   const classeSP = document.getElementById("classe-SP");
 
-
-
   ArrayLocals.push(item.RelacionamentoPA.LocalCompleto);
+
   menuitems.classList =
-    "grid grid-cols-8 w-full bg-[#1d242a] border-b border-gray-600 p-2 text-center text-white";
+    "bg-white rounded-lg shadow p-1 mb-1 grid grid-cols-2 md:grid-cols-8 gap-2 items-center text-center";
 
   menuitems.innerHTML = `
-      <span class="p-1">${item.filial}</span>
-      <span class="p-1">${item.Andar}</span>
-      <span class="p-1">${item.Espinha}</span>
-      <span class="p-1">${item.PA}</span>
-      <span class="p-1">${item.RelacionamentoPA.LocalCompleto}</span>
-      <div class="flex justify-center">
-       <button onclick="HrefSnipePC('${item.RelacionamentoPA.PatrimonioPC}')" class="underline decoration-1 text-white rounded-sm p-1 w-1/2 cursor-pointer"><a class="flex justify-center">${item.RelacionamentoPA.PatrimonioPC}</a></button>
-      </div>
-      <div class="flex justify-center">
-       <button onclick="HrefSnipeMNT('${item.RelacionamentoPA.PatrimonioMNT}')"  class="underline decoration-1 text-white rounded-sm p-1 w-1/2 cursor-pointer"><a class="flex justify-center">${item.RelacionamentoPA.PatrimonioMNT}</a></button>
-      </div>
-      <div class="flex justify-center">
-        <button class="bg-[#146c84] text-white rounded-sm p-1 cursor-pointer mr-1 btn-edit" onclick="OpenModal(${item.id})" id="OpenModalEdit">Editar</button>
-        <form method="post" action="/delete">
-            <input type="hidden" name="id" value="${item.id}">
-            <button type="submit" class="bg-red-500 text-white rounded-sm cursor-pointer button-excluir p-1 ml-1">
-                Excluir
-            </button>
-        </form>
-      </div>
-    `;
+  <span class="hidden md:inline-block">${item.filial}</span>
+<span class="hidden md:inline-block">${item.Andar}</span>
+<span class="hidden md:inline-block">${item.Espinha}</span>
+<span class="hidden md:inline-block">${item.PA}</span>
+
+<div class="col-span-1 md:col-span-1 text-left md:text-center">
+    <strong class="md:hidden text-sm">Local: </strong>
+    <span>${item.RelacionamentoPA.LocalCompleto}</span>
+
+</div>
+<div class="col-span-1 text-left md:text-center">
+    <strong class="md:hidden text-sm">PC: </strong>
+    <button onclick="HrefSnipePC('${item.RelacionamentoPA.PatrimonioPC}')"
+        class="underline decoration-1 text-black rounded-sm p-1 w-1/2 cursor-pointer"><a
+            class="flex justify-center">${item.RelacionamentoPA.PatrimonioPC}</a></button>
+</div>
+<div class="col-span-1 text-left md:text-center">
+    <strong class="md:hidden text-sm">MNT: </strong>
+    <span>Undefined</span>
+</div>
+<div class="col-span-1 flex  gap-2 ">
+    <button class="bg-[#146c84] text-white rounded p-1 cursor-pointer mr-1 btn-edit" onclick="OpenModal(${item.id})"
+        id="OpenModalEdit"><i class="bi bi-pencil-square"></i></button>
+    <form method="post" action="/delete">
+        <input type="hidden" name="id" value="${item.id}">
+        <button type="submit" class="bg-red-500 text-white rounded cursor-pointer button-excluir p-1 ml-1">
+            <i class="bi bi-trash"></i>
+        </button>
+    </form>
+</div>
+  `;
 
   switch (item.filial) {
     case "J0":
@@ -80,6 +89,7 @@ async function fetchApitable() {
 
     menutable = await response.json();
 
+
     menutable.sort((a, b) =>
       a.RelacionamentoPA.LocalCompleto.localeCompare(b.RelacionamentoPA.LocalCompleto)
     );
@@ -91,14 +101,54 @@ async function fetchApitable() {
   }
 }
 
-//NAO FUNCIONA
 //Pesquisa de busca por local, filial, espinha
-InputBusca.oninput = () => {
-  menucontainer.innerHTML = "";
-  ArrayLocals.filter((local) =>
-    local.toLowerCase().includes(InputBusca.value.toLowerCase())
-  ).forEach((local) => CreateItems(local))
-}
+ButtonBusca.addEventListener("click", () => {
+  const termoBusca = InputBusca.value.trim().toLowerCase();
+
+  // Limpa os containers de exibição
+  document.getElementById("classe-J0").innerHTML = "";
+  document.getElementById("classe-J1").innerHTML = "";
+  document.getElementById("classe-CWB").innerHTML = "";
+  document.getElementById("classe-SP").innerHTML = "";
+
+  // Filtra os dados com base no termo
+  const result = menutable.filter((item) => {
+    const local = item.RelacionamentoPA.LocalCompleto.toLowerCase();
+    const patrimonioPC = item.RelacionamentoPA.PatrimonioPC?.toLowerCase();
+    console.log(local, patrimonioPC);
+
+    return (
+      local.includes(termoBusca) ||
+      patrimonioPC.includes(termoBusca)
+    );
+  })
+  console.log(result);
+
+  // Renderiza os itens filtrados
+  //utiliza funcao ja existente para cirar os itens
+  result.forEach(item => CreateItems(item));
+});
+
+InputBusca.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") {
+    ButtonBusca.click();
+  }
+});
+
+//limpar campos
+InputBusca.addEventListener("input", () => {
+  const ValueBusca = InputBusca.value.trim().toLowerCase();
+
+  if (ValueBusca === "") {
+    document.getElementById("classe-J0").innerHTML = "";
+    document.getElementById("classe-J1").innerHTML = "";
+    document.getElementById("classe-CWB").innerHTML = "";
+    document.getElementById("classe-SP").innerHTML = "";
+
+    menutable.forEach(item => CreateItems(item));
+  }
+
+})
 
 async function ModalEdit(id) {
   try {
@@ -218,6 +268,7 @@ if (selectAndar) {
 }
 
 if (selectpa) {
+  ''
   for (let i = 1; i <= 18; i++) {
     let option = document.createElement("option");
     option.value = i;
@@ -242,6 +293,8 @@ buttonfechar.addEventListener("click", function (e) {
   }
 });
 
+
+
 function HrefSnipePC(item) {
   window.open(`https://snipe.schulze.com.br/hardware?page=1&size=20&order=asc&sort=name&search=${item}`, '_blank');
 }
@@ -250,9 +303,4 @@ function HrefSnipeMNT(item) {
   window.open(`https://snipe.schulze.com.br/hardware?page=1&size=20&order=asc&sort=name&search=${item}`, '_blank');
 }
 
-
-//ButtonBusca.addEventListener("click", () => {})
-
-
-;
 fetchApitable();

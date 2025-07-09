@@ -4,10 +4,7 @@ exports.Cadastro = async function (req, res) {
   console.log(req.body);
   const { filial, andar, espinha, pa, patrimonioPC, patrimonioMNT, carteira } = req.body;
 
-  const localcompleto = `${filial}${andar.padStart(2, "0")}A${espinha.padStart(
-    2,
-    "0"
-  )}E${pa.padStart(2, "0")}PA`;
+  const localcompleto = `${filial}-A${andar.padStart(2, "0")}-E${espinha.padStart(2,"0")}-PA${pa.padStart(2, "0")}`;
 
   try {
     const ConsultaExiste = await prisma.localizacaoPA.findFirst({
@@ -73,10 +70,8 @@ exports.Delete = async function (req, res) {
 exports.Edicao = async function (req, res) {
   const id = parseInt(req.body.id);
   const { filial, andar, espinha, pa, patrimonioPC, patrimonioMNT, carteira } = req.body;
-  const localcompleto = `${filial}${andar.padStart(2, "0")}A${espinha.padStart(
-    2,
-    "0"
-  )}E${pa.padStart(2, "0")}PA`;
+  const localcompleto = `${filial}-A${andar.padStart(2, "0")}-E${espinha.padStart(2,"0")}-PA${pa.padStart(2, "0")}`;
+  
   try {
     await prisma.localizacaoPA.updateMany({
       where: {
