@@ -4,8 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "prisma+postgres://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5IjoiMDFKWFo4Wjk2OUZGNTVLQVdCM1RGVFZSVEEiLCJ0ZW5hbnRfaWQiOiJmNjE1MWZiY2JiZTg1ODc5N2Q5ZDA3MTdiOGUyOGZiNWNiZTkzMDZjMWJmZTM0Mjg5YWYxYTBmYTgwNTYyMTIyIiwiaW50ZXJuYWxfc2VjcmV0IjoiYWEzMjYxNTItNTY0OC00N2EzLWE0NzItMWI2N2E1M2VhNGI1In0.5ZYS2kwzhZAHFtv3DpSrzNx_c8zxg33PTOrpsrMMyXw"
-  //url = env("DATABASE_URL")
+  url = env("DATABASE_URL")
 }
 
 model LocalizacaoPA {
